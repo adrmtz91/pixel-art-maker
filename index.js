@@ -15,3 +15,23 @@ window.addEventListener('DOMContentLoaded', () => {
   const defaultSize = 16;
   createGrid(defaultSize);
 });
+ 
+// grab the new element
+const colorPicker = document.getElementById('colorPicker');
+let mouseDown = false;
+document.body.addEventListener('mousedown', () => mouseDown = true);
+document.body.addEventListener('mouseup',   () => mouseDown = false);
+
+// paint on mousedown or drag
+function paint(cell) {
+  cell.style.backgroundColor = colorPicker.value;
+}
+
+// wire up events after grid creation
+grid.addEventListener('mousedown', e => {
+  if (e.target.classList.contains('cell')) paint(e.target);
+});
+grid.addEventListener('mouseover', e => {
+  if (mouseDown && e.target.classList.contains('cell'))
+    paint(e.target);
+});
