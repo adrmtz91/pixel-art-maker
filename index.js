@@ -1,3 +1,30 @@
+const clearBtn = document.getElementById('clearBtn');
+const saveBtn  = document.getElementById('saveBtn');
+
+function clearGrid() {
+  grid.childNodes.forEach(c => c.style.backgroundColor = '#fff');
+}
+
+function exportPNG() {
+  const size = +sizeSlider.value;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  Array.from(grid.children).forEach((cell,i) => {
+    ctx.fillStyle = cell.style.backgroundColor || '#fff';
+    ctx.fillRect(i % size, Math.floor(i/size), 1, 1);
+  });
+
+  const link = document.createElement('a');
+  link.download = 'pixel-art.png';
+  link.href = canvas.toDataURL();
+  link.click();
+}
+
+clearBtn.addEventListener('click',  clearGrid);
+saveBtn.addEventListener('click',   exportPNG);
+
 //grid generation 
 function createGrid(size) {
   grid.innerHTML = '';
